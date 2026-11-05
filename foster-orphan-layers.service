@@ -1,0 +1,18 @@
+[Unit]
+Description=Report orphaned Docker overlay2 layers
+After=docker.service
+
+[Service]
+Type=oneshot
+User=root
+Environment=DOCKER_HOST=unix:///var/run/docker.sock
+StateDirectory=foster-orphan-layers
+StateDirectoryMode=0700
+WorkingDirectory=/var/lib/foster-orphan-layers
+UMask=0077
+ExecStart=/usr/local/libexec/foster-orphan-layers.sh
+StandardOutput=journal
+StandardError=journal
+TimeoutStartSec=infinity
+TimeoutStopSec=infinity
+KillMode=mixed
